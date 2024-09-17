@@ -25,7 +25,7 @@ public class Campo {
 	boolean adicionarVizinho(Campo vizinho) {
 		boolean linhaDiferente = linha != vizinho.linha; // '!=' for diferente;
 		boolean colunaDiferente = coluna != vizinho.coluna; // se linha e coluna for diferente é diagonal;
-		boolean diagonal = linhaDiferente && colunaDiferente;	
+		boolean diagonal = linhaDiferente && colunaDiferente;
 
 		int deltaLinha = Math.abs(linha - vizinho.linha);
 		int deltaColuna = Math.abs(coluna - vizinho.coluna);
@@ -70,8 +70,64 @@ public class Campo {
 	boolean vizinhosSeguros() {
 		return Vizinhos.stream().noneMatch(v -> v.minado); // 'noneMatch' nenhum vizinho pode estar minado;
 	}
+
+	void Minar() {
+		minado = true;
+	}
+
+	boolean objetivoAlcancado() {
+		boolean desvendado = !minado && aberto;
+		boolean protegido = minado && marcado;
+		return desvendado || protegido;
+	}
+
+	long minasNaVizinhanca() {
+		return Vizinhos.stream().filter(v -> v.minado).count(); // count retorna a quantidade de minas;
+	}
+
+	boolean reiniciar() {
+		aberto = false;
+		minado = false;
+		marcado = false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		if(marcado) {
+			return "x";
+		} else if(aberto && minado) {
+			return "*";
+		} else if(aberto && minasNaVizinhanca() > 0) {
+			return Long.toString(minasNaVizinhanca());
+		} else if(aberto) {
+			return " ";
+		} else {
+			return "?";
+		}
+	}
 	
 	public boolean isMarcado() {
 		return marcado;
+	}
+
+	public boolean isAberto() {
+		return aberto;
+	}
+	
+	public boolean isMinado() {
+		return minado;
+	}
+
+	public boolean isFechado() {
+		return !isAberto();
+	}
+
+	public int getLinha() {
+		return linha;
+	}
+
+	public int getColuna() {
+		return coluna;
 	}
 }

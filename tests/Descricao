@@ -1,1 +1,3 @@
 Crie uma pasta separada do cliente, porque os testes são apenas para desenvolvimento.
+
+para metodos com a visibilidade default, tem que usar o mesmo caminhoque está, exp: "br.com.cod3r.cm.modelo".
